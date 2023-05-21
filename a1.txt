@@ -1,0 +1,51 @@
+import java.rmi.*;
+public class AddClient {
+    public static void main(String args[]) {
+        try {
+            String url = "rmi://" + args[0] + "/AddServer";
+            AddServerIntf obj = (AddServerIntf) Naming.lookup(url);
+            System.out.println("Number 1 - " + args[1]);
+            System.out.println("Number 2 - " + args[2]);
+            int a = Integer.parseInt(args[1]);
+            int b = Integer.parseInt(args[2]);
+            System.out.println("Sum - " + obj.add(a, b));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+}
+
+import java.rmi.*;
+public class AddServer {
+    public static void main(String args[]) {
+        try {
+            AddServerImpl obj = new AddServerImpl();
+            Naming.rebind("AddServer", obj);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+}
+
+import java.rmi.*;
+import java.rmi.server.*;
+public class AddServerImpl extends UnicastRemoteObject implements AddServerIntf {
+    public AddServerImpl() throws RemoteException {}
+    public int add(int a, int b) throws RemoteException{
+        return a + b;
+    }
+}
+
+import java.rmi.*;
+public interface AddServerIntf extends Remote {
+    int add(int a, int b) throws RemoteException;
+}
+
+javac *.java
+rmic AddServerImpl 
+client/ - AddClient.class, 	AddServerImpl_Stub, AddServerIntf
+server/ - AddServer, 		AddServerImpl_Stub, AddServerIntf, AddServerImpl
+Command 'rmiregistry' in main dir
+java AddServer
+java AddClient 127.0.0.1 9 10
+O/P

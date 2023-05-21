@@ -1,0 +1,40 @@
+Implement multi-threaded client/server Process communication using RMI.
+
+AddClient
+java.rmi
+main
+try catch
+url rmi://args[0]/AddServer 127.0.0.1
+Intf obj = (Intf) Naming.lookup(url)
+sout n1 args[1]
+sout n2 args[2]
+Convert n1 n2 to int
+sout sum obj.add(a, b)
+
+AddServer
+java.rmi
+main
+try catch
+Impl obj = new Impl()
+Naming.rebind("AddServer", obj)
+
+AddServerImpl
+java.rmi
+java.rmi.server
+extends UnicastRemoteObject implements Intf
+Impl() throws RemoteException
+add() throws RemoteException {return}
+
+AddServerIntf
+java.rmi
+interface extends Remote
+add() throws RemoteException;
+
+javac *.java
+rmic AddServerImpl 
+client/ - AddClient.class, 	AddServerImpl_Stub, AddServerIntf
+server/ - AddServer, 		AddServerImpl_Stub, AddServerIntf, AddServerImpl
+Command 'rmiregistry' in main dir
+java AddServer
+java AddClient 127.0.0.1 9 10
+O/P

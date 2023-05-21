@@ -1,0 +1,195 @@
+import java.util.Scanner;
+public class BullyAlgo {
+    public static boolean[] state = new boolean[5];
+    public static int leader = 5;
+    public static void status() {
+        System.out.print("Active Processes - ");
+        for (int i = 0; i < 5; i++) {
+            if (state[i]) {
+                System.out.print("p" + i + " ");
+            }
+        }
+    }
+    public static void restart(int p) {
+        if (state[p]) {
+            System.out.println("p" + p + " is already active.");
+            status();
+        } else {
+            state[p] = true;
+            election(p);
+            status();
+        }
+    }
+    public static void down(int p) {
+        state[p] = false;
+        status();
+    }
+    public static void election(int p) {
+        int flag = 1;
+        if (state[p]) {
+            do {
+                flag = 0;
+                for (int i = p + 1; i < 5; i++) {
+                    System.out.print("p" + p + " sent election message to p" + i + "\n");
+                    flag = 1;
+                }
+                for (int i = p + 1; i < 5; i++) {
+                    if (state[i]) {
+                        System.out.print("p" + i + " sent alive message to p" + p + "\n");
+                    }
+                }
+                for (int i = p + 1; i < 5; i++) {
+                    if (state[i]) {
+                        p = i;
+                        break;
+                    }
+                }
+            } while (flag == 1);
+            System.out.println("p" + p + " is the leader.");
+        } else {
+            System.out.print("p" + p + " is down.");
+        }
+    }
+    public static void main(String[] args) {
+        int flag2 = 1;
+        for (int i = 0; i < 5; i++) {
+            state[i] = true;
+        }
+        status();
+        do {
+            System.out.println("\nChoose a option -");
+            System.out.println("1. Restart a process.");
+            System.out.println("2. Bring a process down.");
+            System.out.println("3. Send election message.");
+            System.out.println("4. Processes Status.");
+            System.out.println("5. Quit");
+            Scanner sc = new Scanner(System.in);
+            int ch = sc.nextInt();
+            switch (ch) {
+                case 1:
+                    System.out.print("Enter process you want to restart: ");
+                    int a = sc.nextInt();
+                    restart(a);
+                    break;
+                case 2:
+                    System.out.println("Enter process you want to bring down: ");
+                    int b = sc.nextInt();
+                    down(b);
+                    break;
+                case 3:
+                    System.out.println("Enter process which will initiate the election: ");
+                    int c = sc.nextInt();
+                    election(c);
+                    break;
+                case 4:
+                    status();
+                    break;
+                case 5:
+                    flag2 = 0;
+                    break;
+                default:
+                    System.out.println("Invalid Input.");
+            }
+        } while (flag2 == 1);
+    }
+}
+
+import java.util.Scanner;
+public class RingAlgo {
+    public static boolean[] state = new boolean[5];
+    public static int leader = 5;
+    public static void status() {
+        System.out.print("Active Processes - ");
+        for (int i = 0; i < 5; i++) {
+            if (state[i]) {
+                System.out.print("p" + i + " ");
+            }
+        }
+    }
+    public static void restart(int p) {
+        if (state[p]) {
+            System.out.println("p" + p + " is already active.");
+            status();
+        } else {
+            state[p] = true;
+            election(p);
+            status();
+        }
+    }
+    public static void down(int p) {
+        state[p] = false;
+        status();
+    }
+    public static void election(int p) {
+        int flag = 1;
+        int max = -1;
+        if (state[p]) {
+            for (int i = 0; i < 4; i++) {
+
+                if (state[p]) {
+                    if (p < 4){
+                        System.out.print("\np" + p + " sent election message to p" + (p + 1));
+                    }else {
+                        System.out.print("\np" + p + " sent election message to p" + (p + 1));
+                        p=0;
+                        System.out.print("\np5 sent election message to p0");
+                        System.out.print("\np" + p + " sent election message to p" + (p + 1));
+                    }
+                }
+                p+=1;
+            }
+            for(int i=0; i<5; i++){
+                if(state[i]){
+                    if(i>max){
+                        max=i;
+                    }
+                }
+            }
+            System.out.println("\np" + max + " is the leader.");
+        } else {
+            System.out.print("p" + p + " is down.");
+        }
+    }
+    public static void main(String[] args) {
+        int flag2 = 1;
+        for (int i = 0; i < 5; i++) {
+            state[i] = true;
+        }
+        status();
+        do {
+            System.out.println("\nChoose a option -");
+            System.out.println("1. Restart a process.");
+            System.out.println("2. Bring a process down.");
+            System.out.println("3. Send election message.");
+            System.out.println("4. Processes Status.");
+            System.out.println("5. Quit");
+            Scanner sc = new Scanner(System.in);
+            int ch = sc.nextInt();
+            switch (ch) {
+                case 1:
+                    System.out.print("Enter process you want to restart: ");
+                    int a = sc.nextInt();
+                    restart(a);
+                    break;
+                case 2:
+                    System.out.println("Enter process you want to bring down: ");
+                    int b = sc.nextInt();
+                    down(b);
+                    break;
+                case 3:
+                    System.out.println("Enter process which will initiate the election: ");
+                    int c = sc.nextInt();
+                    election(c);
+                    break;
+                case 4:
+                    status();
+                    break;
+                case 5:
+                    flag2 = 0;
+                    break;
+                default:
+                    System.out.println("Invalid Input.");
+            }
+        } while (flag2 == 1);
+    }
+}

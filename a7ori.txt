@@ -1,0 +1,74 @@
+--NETBEANS
+
+Create and consume java web service
+
+NetBeans IDE 8.0.2 (J2ee Architecture)
+
+File > New Project > Java Web > Java Web Application > Next
+Name ur Web Service 'MyWebService' > Next
+GlassFish Server 4.1 > Java EE 5 / 7 / Any > Next
+Finish
+
+Right Click 'MyWebService' > New > Web Service
+Give WS name as 'Addition' > Give package name as 'addition'
+
+Open Web Services/Addition.java
+Delete hello methods 4 lines
+
+Go to Design Tab > Add Operation > Give Name as 'addition' > 
+Give return type as 'java.lang.Integer' > Add > 'a', int > Add > 'b' > Ok 
+
+Change return null; to return a+b; in addition()
+
+Right Click 'MyWebService' > Clean and Build > 'BUILD SUCCESSFUL' will be displayed
+Right Click 'MyWebService' > Deploy > MyWebService, DB and Glassfish displayed in OP >
+'BUILD SUCCESSFUL' will be displayed
+
+Right Click 'Addition.java' > Test Web Service > Give input numbers > Click addition button
+Result will be displayed 
+
+Go back to first page > Click on 'WSDL File' > Copy url from address bar 
+
+// Create consumer client
+File > New Project > Java Web > Java Web Application > Next
+Name ur Web Service 'MyClient' > Next
+GlassFish Server 4.1 > Java EE 5 / Any > Next
+Finish
+
+Right Click 'MyClient' > New > Web Service Client > Choose WSDL URL > Paste WSDL url copied earlier > Finish
+ 
+Open MyClient/Web Pages/index.jsp > Inside body add the following code -
+<form action="index.jsp">
+<input type="text" name="a"><br>
+<input type="text" name="b"><br>
+<input type="submit" value="add">
+</form>
+
+Right click on index.jsp code > Click Web Service Client Resources/Call Web Service Client Operation
+Open all and click on addition > Ok
+
+Inside try block on 3rd line write - 
+String a = request.getParameter("a");
+String b = request.getParameter("b");
+int aa = Integer.parseInt(a);
+int bb = Integer.parseInt(b);
+Pass aa and bb instead of a and b
+
+Click Green Run button
+O/P
+
+--ECLIPSE
+
+Use a version that supports Java EE (Java EE - eclpise)
+
+File > New > Dynamic Web Project
+Project Name - 'Calculator' > Dynamic Web module version - 2.5 > Checkbox Add Project to EAR > Next > Finish
+
+Right CLick 'Calculator' > New > Class
+Add Following code to Calculator.java - 
+public int add(int a, int b){return a+b;}
+
+Right click Calculator.java > New > Other > Web Services/Web Service > Slide slider of Client to top most position > Checkbox Publish the Web Service > Next > Next > Finish
+
+Select add() from Methods window > Give inputs > Invoke
+O/P
